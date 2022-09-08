@@ -15,5 +15,5 @@ project(':LibraryLayer').projectDir = new File('common/LibraryLayer')
 
 include ':CommonRes'
 include ':CommonService'
-include ':CommonTool'
+include ':CommonTools'
 include ':CommonConfig'
