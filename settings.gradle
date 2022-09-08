@@ -9,5 +9,8 @@ dependencyResolutionManagement {
 rootProject.name = "GzgAppComponent"
 include ':app'
 include ':photo'
+project(':photo').projectDir = new File('business/photo')
+
 include ':LibraryLayer'
+project(':LibraryLayer').projectDir = new File('common/LibraryLayer')
 
