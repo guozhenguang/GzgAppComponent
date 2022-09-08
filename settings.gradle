@@ -8,3 +8,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "GzgAppComponent"
 include ':app'
+include ':photo'
+include ':LibraryLayer'
+

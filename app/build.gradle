@@ -1,24 +1,56 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
-    compileSdk 32
+    compileSdk rootProject.ext.android["compileSdkVersion"]
 
     defaultConfig {
         applicationId "com.example.gzgappcomponent"
-        minSdk 21
-        targetSdk 32
-        versionCode 1
-        versionName "1.0"
+        minSdk  rootProject.ext.android["minSdkVersion"]
+        targetSdk rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        //配置阿里ARouter路由
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
+            }
+        }
+
+        // 64k
+        multiDexEnabled true
     }
 
     buildTypes {
         release {
+            buildConfigField "boolean", "IS_DEBUG", "false"
+            buildConfigField "String", "buildTime", "\"" + releaseTime() + "\""
+            buildConfigField "int", "URL_CONFIG", "" + getUrl(2) + ""
+            //混淆
+            minifyEnabled true
+            //Zipalign优化
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        //测试
+        debug{
+            buildConfigField "boolean", "IS_DEBUG", "true"
+            buildConfigField "String", "buildTime", "\"" + releaseTime() + "\""
+            buildConfigField "int", "URL_CONFIG", "" + getUrl(0) + ""
+            //混淆
             minifyEnabled false
+            //Zipalign优化
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources false
+
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -26,18 +58,45 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    //避免项目中存在相同的jar包，导致运行失败
+    dexOptions {
+        preDexLibraries = false
+    }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
 }
 
+static def releaseTime() {
+    return new Date().format("MMddHHmmss", TimeZone.getTimeZone("Asia/Shanghai"))
+}
+
+//读取项目中的url.properties配置文件
+static int getUrl(int status) {
+    File propFile = new File('url.properties')//这个文件不可写注释
+    if (propFile.exists()) {
+        Properties props = new Properties()
+        props.load(new FileInputStream(propFile))
+        switch (status) {
+            case 0:
+                return Integer.parseInt(props['DEBUG_URL'])  //测试
+            case 2:
+                return Integer.parseInt(props['RELEASE_URL'])//线上
+            default:
+                return Integer.parseInt(props['RELEASE_URL'])//线上
+        }
+    }
+    return 2//线上
+}
+
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.4.2'
-    implementation 'com.google.android.material:material:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    kapt rootProject.ext.dependencies["router-compiler"]
+    implementation project(path: ':LibraryLayer')
+    if (!rootProject.ext.isPhotoApplication){
+        implementation project(path: ':photo')
+    }
 }
