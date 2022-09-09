@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.example.commontool.base.config.AppConfig
 import com.example.commontool.utils.arounter.ARouterUtils
 import com.example.commontool.utils.log.LogUtils
+import com.example.commontool.utils.pool.PoolThreadUtils
 
 /**
  * @author guozhenguang
@@ -36,6 +37,7 @@ open class BaseApplication: Application() {
     override fun onTerminate() {
         LogUtils.d(TAG, "onTerminate")
         super.onTerminate()
+        PoolThreadUtils.closeExecutor()
         ARouterUtils.destroy()
     }
 

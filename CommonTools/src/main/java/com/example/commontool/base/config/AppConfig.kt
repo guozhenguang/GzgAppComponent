@@ -4,6 +4,7 @@ import android.app.Application
 import com.alibaba.android.arouter.launcher.ARouter
 import com.example.commontool.BuildConfig
 import com.example.commontool.utils.log.LogUtils
+import com.example.commontool.utils.pool.PoolThreadUtils
 
 /**
  * @author guozhenguang
@@ -14,6 +15,7 @@ object AppConfig {
 
     fun initConfig(application: Application){
         initLog(true)
+        initThreadPool()
         initARouter(application)
     }
 
@@ -30,6 +32,10 @@ object AppConfig {
 
     private fun initLog(printLog: Boolean){
         LogUtils.isPrintLog = printLog
+    }
+
+    private fun initThreadPool(){
+        PoolThreadUtils.initThreadPool()
     }
 
 

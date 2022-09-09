@@ -93,7 +93,7 @@ static int getUrl(int status) {
 
 dependencies {
 
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
     kapt rootProject.ext.dependencies["router-compiler"]
     implementation project(path: ':CommonTools')
     if (!rootProject.ext.isPhotoApplication){

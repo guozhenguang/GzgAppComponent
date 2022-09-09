@@ -56,7 +56,7 @@ static def releaseTime() {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
 
     api rootProject.ext.dependencies["core_ktx"]
     api rootProject.ext.dependencies["appcompat-x"]
