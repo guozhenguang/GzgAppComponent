@@ -95,7 +95,6 @@ dependencies {
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     kapt rootProject.ext.dependencies["router-compiler"]
-    implementation project(path: ':LibraryLayer')
     if (!rootProject.ext.isPhotoApplication){
         implementation project(path: ':photo')
     }

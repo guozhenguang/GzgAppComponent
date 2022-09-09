@@ -10,10 +10,5 @@ rootProject.name = "GzgAppComponent"
 include ':app'
 include ':photo'
 
-include ':LibraryLayer'
-project(':LibraryLayer').projectDir = new File('common/LibraryLayer')
-
 include ':CommonRes'
-include ':CommonService'
 include ':CommonTools'
-include ':CommonConfig'
