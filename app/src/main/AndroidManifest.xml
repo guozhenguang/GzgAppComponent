@@ -3,7 +3,7 @@
     package="com.example.gzgappcomponent">
 
     <application
-        android:name=".base.app.BaseApplication"
+        android:name=".base.app.MApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
