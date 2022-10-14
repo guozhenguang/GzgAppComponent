@@ -21,7 +21,7 @@ android {
 
         multiDexEnabled true
 
-        if (rootProject.ext.isMusicApplication){
+        if (rootProject.ext.isPhotoApplication){
             //组件模式下设置applicationId
             applicationId "com.example.photo"
         }
@@ -47,6 +47,8 @@ android {
             } else {
                 manifest.srcFile 'src/main/AndroidManifest.xml'
             }
+            //当so文件在jniLibs文件夹下无需加这句话；
+            // 当so在lib中要加这句话，意识是告诉AS，jniLibs的资源在lib中也能找到
             jniLibs.srcDirs = ['libs']
         }
     }
