@@ -10,5 +10,4 @@ rootProject.name = "GzgAppComponent"
 include ':app'
 include ':photo'
 
-include ':CommonRes'
-include ':CommonTools'
+include ':Common'
